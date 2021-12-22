@@ -50,6 +50,9 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:+'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+
     // Use local TensorFlow library
     // implementation 'org.tensorflow:tensorflow-lite-local:0.0.0'
 }
