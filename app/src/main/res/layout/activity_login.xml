@@ -54,7 +54,7 @@
             android:drawablePadding="12dp"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:minHeight="48dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
@@ -82,6 +82,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_to_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"

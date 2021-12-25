@@ -1,17 +1,18 @@
 <?php
 
-include "dbFunctions.php"; 
+include "dbFunctions.php";
 
 
 if (isset($_POST)) {
 
-    $name = $_POST['name'];
-    $gpa = $_POST['gpa'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    $insertQuery = "INSERT INTO user(name, gpa) 
+    $insertQuery = "INSERT INTO user(username, email, password) 
                 VALUES  
-                ('$name','$gpa')";
-//echo $insertQuery;
+                ('$username','$email','$password')";
+    echo $insertQuery;
     $status = mysqli_query($link, $insertQuery) or die(mysqli_error($link));
 
     if ($status) {
