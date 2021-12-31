@@ -19,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ImageClassification">
         <activity
+            android:name=".ProgressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrackerActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
@@ -26,8 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -50,7 +55,7 @@
             android:name=".ClassifierActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

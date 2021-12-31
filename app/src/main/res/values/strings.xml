@@ -16,4 +16,16 @@
         <!-- TODO: Add GPU  -->
         <item>GPU</item>
     </string-array>
+    <string name="home">Home</string>
+    <string name="scan">Scan</string>
+    <string name="track">Track</string>
+    <string name="progress">Progress</string>
+    <string name="profile">Profile</string>
+    <string name="add">Add Entry</string>
+    <string name="add_date">Date</string>
+    <string name="add_exercise">Exercise</string>
+    <string name="add_set">Sets</string>
+    <string name="add_rep">Reps</string>
+    <string name="add_weight">Weight (kg)</string>
+    <string name="cancel">Cancel</string>
 </resources>
