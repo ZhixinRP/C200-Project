@@ -27,6 +27,8 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     lintOptions {
         abortOnError false
@@ -42,9 +44,6 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-    // Build off of nightly TensorFlow Lite
-    // TODO: Add TFLite dependencies
-
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite:+'
@@ -53,8 +52,9 @@ dependencies {
 
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.karumi:dexter:6.2.2'
+    implementation 'com.github.CanHub:Android-Image-Cropper:3.3.6'
 
     // Use local TensorFlow library
     // implementation 'org.tensorflow:tensorflow-lite-local:0.0.0'
