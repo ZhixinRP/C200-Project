@@ -104,6 +104,7 @@ public abstract class CameraActivity extends AppCompatActivity
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.tfe_ic_activity_camera);
+    getSupportActionBar().setTitle("Scan Equipment");
 
     if (hasPermission()) {
       setFragment();
@@ -451,12 +452,15 @@ public abstract class CameraActivity extends AppCompatActivity
           if (showFirstResult(results).equals("Treadmill")) {
             Intent intent = new Intent(CameraActivity.this, TreadmillActivity.class);
             startActivity(intent);
+            finish();
           } else if (showFirstResult(results).equals("Lat Pulldown")) {
             Intent intent = new Intent(CameraActivity.this, LatPulldownActivity.class);
             startActivity(intent);
+            finish();
           } else if (showFirstResult(results).equals("Leg Press")) {
             Intent intent = new Intent(CameraActivity.this, LegPressActivity.class);
             startActivity(intent);
+            finish();
           }
         }
       });
