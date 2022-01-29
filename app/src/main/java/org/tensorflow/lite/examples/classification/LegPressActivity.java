@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -47,8 +48,8 @@ public class LegPressActivity extends AppCompatActivity {
 
     SessionManager sessionManager;
 
-    String ADD_LEGPRESS_URL = "http://10.0.2.2/c200/addLegpress.php";
-    String ALL_LEGPRESS_URL = "http://10.0.2.2/c200/getLegpress.php?";
+    String ADD_LEGPRESS_URL = UtilityManager.BASE_URL + "c200/addLegpress.php";
+    String ALL_LEGPRESS_URL = UtilityManager.BASE_URL + "c200/getLegpress.php?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

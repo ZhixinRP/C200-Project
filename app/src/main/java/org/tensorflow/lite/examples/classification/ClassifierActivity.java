@@ -16,19 +16,15 @@
 
 package org.tensorflow.lite.examples.classification;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
-import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import java.io.IOException;
 import java.util.List;
-import java.util.Timer;
 
 import org.tensorflow.lite.examples.classification.env.BorderedText;
 import org.tensorflow.lite.examples.classification.env.Logger;
