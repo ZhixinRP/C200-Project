@@ -88,7 +88,7 @@ public class LegPressActivity extends AppCompatActivity {
                         String weight = obj.getString("weight");
                         String username = obj.getString("username");
                         //STORE RECORDS IN TO THE ARRAY
-                        legPressList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "\n" + "Username: " + username);
+                        legPressList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "KG");
                     }
                     //UPDATE THE LIST VIEW
                     aaLegPress.notifyDataSetChanged();
