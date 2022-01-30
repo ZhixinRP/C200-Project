@@ -39,6 +39,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.util.Size;
+import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -104,7 +105,9 @@ public abstract class CameraActivity extends AppCompatActivity
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.tfe_ic_activity_camera);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setTitle("Scan Equipment");
+
 
     if (hasPermission()) {
       setFragment();
@@ -125,6 +128,13 @@ public abstract class CameraActivity extends AppCompatActivity
     recognition1ValueTextView = findViewById(R.id.detected_item1_value);
     recognition2TextView = findViewById(R.id.detected_item2);
     recognition2ValueTextView = findViewById(R.id.detected_item2_value);
+  }
+
+  public boolean onOptionsItemSelected(MenuItem item){
+    Intent intent = new Intent(this, HomeActivity.class);
+    startActivity(intent);
+    finish();
+    return true;
   }
 
   protected int[] getRgbBytes() {
@@ -527,4 +537,5 @@ public abstract class CameraActivity extends AppCompatActivity
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
   }
+
 }
