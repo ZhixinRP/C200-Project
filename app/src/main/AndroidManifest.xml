@@ -29,11 +29,6 @@
         <activity
             android:name=".ProgressActivity"
             android:exported="false" />
-        <activity
-            android:name=".TrackerActivity"
-            android:exported="true">
-
-        </activity>
 
         <!--Home Acitivity-->
         <activity
