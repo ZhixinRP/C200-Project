@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
 
     TextView tv_username;
-    Button btnLogout,btnLegPress;
+    Button btnLogout,btnLegPress,btnGoScan;
     SessionManager sessionManager;
 
     @Override
@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
         tv_username = findViewById(R.id.tv_username);
         btnLogout = findViewById(R.id.btnLogout);
         btnLegPress = findViewById(R.id.btnGYM);
+        btnGoScan = findViewById(R.id.btnGoScan);
 
         sessionManager = new SessionManager(getApplicationContext());
 
@@ -36,6 +37,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, LegPressActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnGoScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, ClassifierActivity.class);
                 startActivity(intent);
             }
         });
