@@ -42,6 +42,7 @@ public class LegPressActivity extends AppCompatActivity {
     Button btnAddLegPress;
     ArrayList legPressList;
     ArrayAdapter aaLegPress;
+    String lastActivity;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
@@ -57,6 +58,9 @@ public class LegPressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leg_press);
         getSupportActionBar().setTitle("Leg Press");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent get = getIntent();
+        lastActivity = get.getStringExtra("last");
 
         lvLegPress = findViewById(R.id.lvLegPress);
         btnAddLegPress = findViewById(R.id.btn_Add_LegPress);
@@ -221,8 +225,10 @@ public class LegPressActivity extends AppCompatActivity {
 
     //CUSTOM ACTION BAR MENU
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(LegPressActivity.this, ClassifierActivity.class);
-        startActivity(intent);
+        if(lastActivity.equalsIgnoreCase("scan")) {
+            Intent intent = new Intent(LegPressActivity.this, ClassifierActivity.class);
+            startActivity(intent);
+        }
         finish();
         return true;
     }
