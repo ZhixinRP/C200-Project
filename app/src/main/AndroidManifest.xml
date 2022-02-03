@@ -5,11 +5,12 @@
     <uses-sdk />
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,46 +19,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ImageClassification">
-
         <activity
-            android:name=".MainActivity">
-        </activity>
-
-        <activity android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
-
+            android:name=".TrackerTabActivity"
+            android:exported="false"
+            android:label="@string/title_activity_tracker_tab"
+            android:theme="@style/AppTheme.ImageClassification.NoActionBar" />
+        <activity android:name=".MainActivity"></activity>
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".ProgressActivity"
-            android:exported="false" />
-
-        <!--Home Acitivity-->
+            android:exported="false" /> <!-- Home Acitivity -->
         <activity
             android:name=".HomeActivity"
-            android:exported="false">
-
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
-
-        </activity>
-
-        <!--Scan Acitivity-->
-        <activity
-            android:name=".ClassifierActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".LatPulldownActivity"
-            android:parentActivityName=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,18 +46,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <!-- Scan Acitivity -->
         <activity
-            android:name=".TreadmillActivity"
+            android:name=".ClassifierActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".LatPulldownActivity"
+            android:exported="true"
             android:parentActivityName=".MainActivity">
         </activity>
-
+        <activity
+            android:name=".TreadmillActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".LegPressActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="true">
-        </activity>
-
+            android:exported="true"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
