@@ -37,4 +37,17 @@
     <string name="title_activity_tracker_tab">TrackerTabActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string-array name="filterTracker">
+        <item>No Filter</item>
+        <item>Current Month</item>
+        <item>Current Year</item>
+    </string-array>
+    <string name="lvtracker_date">Date</string>
+    <string name="lvtracker_time">Date</string>
+    <string name="lvtracker_target">Target Hit?</string>
+    <string name="lvtracker_equipment">Equipment</string>
+    <string name="lvtracker_metric1">Metric 1</string>
+    <string name="lvtracker_metric2">Metric 2</string>
+    <string name="lvtracker_metric3">Metric 3</string>
+
 </resources>
