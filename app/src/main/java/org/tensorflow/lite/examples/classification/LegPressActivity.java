@@ -90,7 +90,6 @@ public class LegPressActivity extends AppCompatActivity {
                         String sets = obj.getString("sets");
                         String reps = obj.getString("reps");
                         String weight = obj.getString("weight");
-                        String username = obj.getString("username");
                         //STORE RECORDS IN TO THE ARRAY
                         legPressList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "KG");
                     }
@@ -122,58 +121,62 @@ public class LegPressActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(!et_LP_Weight.getText().toString().trim().isEmpty() && !et_LP_Reps.getText().toString().trim().isEmpty() && !et_LP_Sets.getText().toString().trim().isEmpty()) {
-                            String date = String.format("%d/%d/%d", dp_LP_Date.getDayOfMonth(), dp_LP_Date.getMonth()+1, dp_LP_Date.getYear());
-                            requestParams.put("date", date);
-                            requestParams.put("weight", Integer.parseInt(et_LP_Weight.getText().toString()));
-                            requestParams.put("reps", Integer.parseInt(et_LP_Reps.getText().toString()));
-                            requestParams.put("sets", Integer.parseInt(et_LP_Sets.getText().toString()));
-                            requestParams.put("equipment", "Leg Press");
-                            requestParams.put("username", sessionManager.getUsername());
+                            if (Integer.parseInt(et_LP_Weight.getText().toString()) <= 200 && Integer.parseInt(et_LP_Reps.getText().toString()) <= 50 && Integer.parseInt(et_LP_Sets.getText().toString()) <= 10) {
+                                String date = String.format("%d/%d/%d", dp_LP_Date.getDayOfMonth(), dp_LP_Date.getMonth()+1, dp_LP_Date.getYear());
+                                requestParams.put("date", date);
+                                requestParams.put("weight", Integer.parseInt(et_LP_Weight.getText().toString()));
+                                requestParams.put("reps", Integer.parseInt(et_LP_Reps.getText().toString()));
+                                requestParams.put("sets", Integer.parseInt(et_LP_Sets.getText().toString()));
+                                requestParams.put("equipment", "Leg Press");
+                                requestParams.put("username", sessionManager.getUsername());
 
-                            // ADD THE NEW RECORD INTO THE DATABASE
-                            asyncHttpClient.post(ADD_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler(){
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    super.onSuccess(statusCode, headers, response);
-                                    try {
-                                        boolean result = response.getBoolean("result");
-                                        if (result) {
-                                            Toast.makeText(LegPressActivity.this, "Added Succesfully", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(LegPressActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        // CLEAR THE LISTVIEW AND GET ALL RECORDS FROM THE DATABASE BASED ON USERNAME (WHEN NEW RECORD ADDED)
-                                        legPressList.clear();
-                                        requestParams.put("username", sessionManager.getUsername());
-                                        asyncHttpClient.get(ALL_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler(){
-                                            @Override
-                                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                                                super.onSuccess(statusCode, headers, response);
-                                                try {
-                                                    for(int i=0; i < response.length(); i++) {
-                                                        int ID = i + 1;
-                                                        JSONObject obj = (JSONObject)response.get(i);
-                                                        String date = obj.getString("date");
-                                                        String sets = obj.getString("sets");
-                                                        String reps = obj.getString("reps");
-                                                        String weight = obj.getString("weight");
-                                                        String username = obj.getString("username");
-                                                        //STORE RECORDS IN TO THE ARRAY
-                                                        legPressList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "\n" + "Username: " + username);
-                                                    }
-                                                    //UPDATE THE LIST VIEW
-                                                    aaLegPress.notifyDataSetChanged();
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
+                                // ADD THE NEW RECORD INTO THE DATABASE
+                                asyncHttpClient.post(ADD_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        super.onSuccess(statusCode, headers, response);
+                                        try {
+                                            boolean result = response.getBoolean("result");
+                                            if (result) {
+                                                Toast.makeText(LegPressActivity.this, "Added Succesfully", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(LegPressActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                                             }
-                                        });
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+
+                                            // CLEAR THE LISTVIEW AND GET ALL RECORDS FROM THE DATABASE BASED ON USERNAME (WHEN NEW RECORD ADDED)
+                                            legPressList.clear();
+                                            requestParams.put("username", sessionManager.getUsername());
+                                            asyncHttpClient.get(ALL_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler(){
+                                                @Override
+                                                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                                    super.onSuccess(statusCode, headers, response);
+                                                    try {
+                                                        for(int i=0; i < response.length(); i++) {
+                                                            int ID = i + 1;
+                                                            JSONObject obj = (JSONObject)response.get(i);
+                                                            String date = obj.getString("date");
+                                                            String sets = obj.getString("sets");
+                                                            String reps = obj.getString("reps");
+                                                            String weight = obj.getString("weight");
+                                                            String username = obj.getString("username");
+                                                            //STORE RECORDS IN TO THE ARRAY
+                                                            legPressList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "\n" + "Username: " + username);
+                                                        }
+                                                        //UPDATE THE LIST VIEW
+                                                        aaLegPress.notifyDataSetChanged();
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                Toast.makeText(LegPressActivity.this, "Please enter valid value", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(LegPressActivity.this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
                         }

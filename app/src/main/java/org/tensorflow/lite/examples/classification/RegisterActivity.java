@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText et_register_username, et_register_email, et_register_password , et_confirm_password;
     Button btnRegister;
     TextView tv_to_login;
-    CircleImageView civProfile;
+//    CircleImageView civProfile;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
@@ -54,50 +54,50 @@ public class RegisterActivity extends AppCompatActivity {
         et_register_email = findViewById(R.id.et_register_email);
         et_register_password = findViewById(R.id.et_register_password);
         et_confirm_password = findViewById(R.id.et_confirm_password);
-        civProfile = findViewById(R.id.profile_img);
+//        civProfile = findViewById(R.id.profile_img);
         btnRegister = findViewById(R.id.btn_register);
         tv_to_login = findViewById(R.id.tv_to_login);
 
         asyncHttpClient = new AsyncHttpClient();
         requestParams = new RequestParams();
 
-        civProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dexter.withContext(RegisterActivity.this).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(RegisterActivity.this);
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        if(permissionDeniedResponse.isPermanentlyDenied()){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                            builder.setTitle("Permission Required");
-                            builder.setMessage("Permission to access your device storage is required to select profile image, Please enable permission to access storage in settings");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent();
-                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    intent.setData(Uri.fromParts("package", getPackageName(),null));
-                                    startActivityForResult(intent, 51);
-                                }
-                            });
-                            builder.setNegativeButton("Cancel",null);
-                            builder.show();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                        permissionToken.continuePermissionRequest();
-                    }
-                })
-                        .check();
-            }
-        });
+//        civProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Dexter.withContext(RegisterActivity.this).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
+//                    @Override
+//                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+//                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(RegisterActivity.this);
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+//                        if(permissionDeniedResponse.isPermanentlyDenied()){
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+//                            builder.setTitle("Permission Required");
+//                            builder.setMessage("Permission to access your device storage is required to select profile image, Please enable permission to access storage in settings");
+//                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    Intent intent = new Intent();
+//                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                                    intent.setData(Uri.fromParts("package", getPackageName(),null));
+//                                    startActivityForResult(intent, 51);
+//                                }
+//                            });
+//                            builder.setNegativeButton("Cancel",null);
+//                            builder.show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+//                        permissionToken.continuePermissionRequest();
+//                    }
+//                })
+//                        .check();
+//            }
+//        });
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -164,17 +164,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUriContent();
-                civProfile.setImageURI(resultUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                Uri resultUri = result.getUriContent();
+//                civProfile.setImageURI(resultUri);
+//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                Exception error = result.getError();
+//            }
+//        }
+//    }
 }
