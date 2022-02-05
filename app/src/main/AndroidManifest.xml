@@ -19,11 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ImageClassification">
-        <activity
-            android:name=".TrackerTabActivity"
-            android:exported="false"
-            android:label="@string/title_activity_tracker_tab"
-            android:theme="@style/AppTheme.ImageClassification.NoActionBar" />
         <activity android:name=".MainActivity"></activity>
         <activity
             android:name="com.canhub.cropper.CropImageActivity"

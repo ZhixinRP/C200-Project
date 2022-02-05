@@ -32,6 +32,7 @@
     <string name="title_chart">Progress</string>
     <string name="title_tracker">Tracker</string>
     <string name="title_camera">Camera</string>
+    <string name="title_equipment">Equipment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_tracker_tab">TrackerTabActivity</string>

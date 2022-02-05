@@ -27,25 +27,10 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
-import org.tensorflow.lite.examples.classification.databinding.FragmentTrackerBinding;
-
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TrackerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TrackerFragment extends Fragment {
 
-//    Button btnAdd;
-//    ListView lvTrack;
-//    ArrayList<Workout> workoutList;
-//    ArrayAdapter<Workout> aaWorkout;
-    private FragmentTrackerBinding binding;
-
-
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -58,15 +43,6 @@ public class TrackerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SecondFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static TrackerFragment newInstance(String param1, String param2) {
         TrackerFragment fragment = new TrackerFragment();
         Bundle args = new Bundle();
@@ -90,7 +66,6 @@ public class TrackerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tracker, container, false);
-
         ViewPager viewPager = v.findViewById(R.id.view_pager);
         TabLayout tabs = v.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
