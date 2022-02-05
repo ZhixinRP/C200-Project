@@ -461,14 +461,17 @@ public abstract class CameraActivity extends AppCompatActivity
         public void onClick(View view) {
           if (showFirstResult(results).equals("Treadmill")) {
             Intent intent = new Intent(CameraActivity.this, TreadmillActivity.class);
+            intent.putExtra("last", "scan");
             startActivity(intent);
             finish();
           } else if (showFirstResult(results).equals("Lat Pulldown")) {
             Intent intent = new Intent(CameraActivity.this, LatPulldownActivity.class);
+            intent.putExtra("last", "scan");
             startActivity(intent);
             finish();
           } else if (showFirstResult(results).equals("Leg Press")) {
             Intent intent = new Intent(CameraActivity.this, LegPressActivity.class);
+            intent.putExtra("last", "scan");
             startActivity(intent);
             finish();
           }

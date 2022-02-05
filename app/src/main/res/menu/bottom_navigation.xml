@@ -18,6 +18,11 @@
         android:title="@string/title_tracker"/>
 
     <item
+        android:id="@+id/navigation_equipment"
+        android:icon="@drawable/ic_dumbbell_solid"
+        android:title="@string/title_equipment" />
+
+    <item
         android:id="@+id/navigation_camera"
         android:icon="@drawable/ic_baseline_camera_24"
         android:title="@string/title_camera" />
