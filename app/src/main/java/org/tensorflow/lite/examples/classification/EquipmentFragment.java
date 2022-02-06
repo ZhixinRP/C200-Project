@@ -33,7 +33,7 @@ public class EquipmentFragment extends Fragment {
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
 
-    String GET_EQUIPMENT_URL = UtilityManager.BASE_URL + "c200/getEquipment.php";
+    String GET_EQUIPMENT_URL = UtilityManager.BASE_URL + "c200/getAllEquipment.php";
 
 
     @Override

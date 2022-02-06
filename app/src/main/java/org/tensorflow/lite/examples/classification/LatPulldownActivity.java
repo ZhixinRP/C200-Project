@@ -220,9 +220,11 @@ public class LatPulldownActivity extends AppCompatActivity {
 
     //CUSTOM ACTION BAR MENU
     public boolean onOptionsItemSelected(MenuItem item){
-        if(lastActivity.equalsIgnoreCase("scan")) {
-            Intent intent = new Intent(LatPulldownActivity.this, ClassifierActivity.class);
-            startActivity(intent);
+        if(lastActivity != null) {
+            if(lastActivity.equalsIgnoreCase("scan")) {
+                Intent intent = new Intent(LatPulldownActivity.this, ClassifierActivity.class);
+                startActivity(intent);
+            }
         }
         finish();
         return true;

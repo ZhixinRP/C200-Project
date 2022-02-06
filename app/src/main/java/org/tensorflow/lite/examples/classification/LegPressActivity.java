@@ -228,9 +228,11 @@ public class LegPressActivity extends AppCompatActivity {
 
     //CUSTOM ACTION BAR MENU
     public boolean onOptionsItemSelected(MenuItem item){
-        if(lastActivity.equalsIgnoreCase("scan")) {
-            Intent intent = new Intent(LegPressActivity.this, ClassifierActivity.class);
-            startActivity(intent);
+        if(lastActivity != null) {
+            if(lastActivity.equalsIgnoreCase("scan")) {
+                Intent intent = new Intent(LegPressActivity.this, ClassifierActivity.class);
+                startActivity(intent);
+            }
         }
         finish();
         return true;
