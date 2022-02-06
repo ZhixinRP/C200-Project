@@ -41,11 +41,11 @@ public class EquipmentAdapter extends ArrayAdapter {
         Equipment current = equipmentList.get(position);
         tvEquipmentTitle.setText(current.getEqName());
         if(current.getEqName().equals("Leg Press")) {
-            IvEquipment.setImageResource(R.drawable.leg_press);
+            IvEquipment.setImageResource(R.drawable.leg_press_img);
         } else if(current.getEqName().equals("Lat Pulldown")) {
-            IvEquipment.setImageResource(R.drawable.lat_pulldown);
+            IvEquipment.setImageResource(R.drawable.lat_pulldown_img);
         } else if (current.getEqName().equals("Treadmill")) {
-            IvEquipment.setImageResource(R.drawable.treadmill);
+            IvEquipment.setImageResource(R.drawable.treadmill_img);
         }
 
         lyEquipment.setOnClickListener(new View.OnClickListener() {

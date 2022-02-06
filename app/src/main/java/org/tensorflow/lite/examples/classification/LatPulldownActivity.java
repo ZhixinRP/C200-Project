@@ -62,6 +62,7 @@ public class LatPulldownActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent get = getIntent();
+
         lastActivity = get.getStringExtra("last");
 
         lvLatPulldown = findViewById(R.id.lvLatPulldown);
@@ -89,7 +90,61 @@ public class LatPulldownActivity extends AppCompatActivity {
                         String metric1 = obj.getString("metric1");
                         String metric2 = obj.getString("metric2");
                         String metric3 = obj.getString("metric3");
-                        Equipment equipment = new Equipment(id, name, metric1, metric2, metric3, 15);
+                        Equipment equipment;
+                        switch(sessionManager.getUsername()) {
+                            case "Kenneth":
+                                switch(i) {
+                                    case 0:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 30);
+                                        break;
+                                    case 1:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 24);
+                                        break;
+                                    case 2:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 12.59);
+                                        break;
+                                    default:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                        break;
+                                }
+                                break;
+                            case "Zhixin":
+                                switch(i) {
+                                    case 0:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 32);
+                                        break;
+                                    case 1:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 14);
+                                        break;
+                                    case 2:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 11.45);
+                                        break;
+                                    default:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                        break;
+                                }
+                                break;
+                            case "Amos":
+                                switch(i) {
+                                    case 0:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 28);
+                                        break;
+                                    case 1:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 20);
+                                        break;
+                                    case 2:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 13.45);
+                                        break;
+                                    default:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                        break;
+                                }
+                                break;
+                            default:
+                                equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                break;
+                        }
+
                         //STORE RECORDS IN TO THE ARRAY
                         equipmentList.add(equipment);
                     }

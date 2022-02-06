@@ -473,7 +473,6 @@ public abstract class CameraActivity extends AppCompatActivity
             Intent intent = new Intent(CameraActivity.this, LegPressActivity.class);
             intent.putExtra("last", "scan");
             startActivity(intent);
-            intent.putExtra("last", "scan");
             finish();
           }
         }
