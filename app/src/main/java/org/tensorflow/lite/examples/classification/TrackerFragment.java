@@ -60,15 +60,15 @@ public class TrackerFragment extends Fragment {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = TrackerSubFragment.newInstance("tracker", "legpress");
+                    fragment = TrackerSubFragment.newInstance("tracker", "Leg Press");
 
                     break;
                 case 1:
-                    fragment = TrackerSubFragment.newInstance("tracker", "latpulldown");
+                    fragment = TrackerSubFragment.newInstance("tracker", "Lat Pulldown");
 
                     break;
                 case 2:
-                    fragment = TrackerSubFragment.newInstance("tracker", "treadmill");
+                    fragment = TrackerSubFragment.newInstance("tracker", "Treadmill");
 
                     break;
                 default:
