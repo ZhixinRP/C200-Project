@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,34 +30,9 @@ import java.util.ArrayList;
 
 public class TrackerFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TrackerFragment() {
-        // Required empty public constructor
-    }
-
-    public static TrackerFragment newInstance(String param1, String param2) {
-        TrackerFragment fragment = new TrackerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -87,15 +61,15 @@ public class TrackerFragment extends Fragment {
             switch (position) {
                 case 0:
                     fragment = TrackerSubFragment.newInstance("tracker", "Leg Press");
-                    Log.v("Lifecycle", "Current fragment lifecycle = " + fragment.getLifecycle());
+
                     break;
                 case 1:
                     fragment = TrackerSubFragment.newInstance("tracker", "Lat Pulldown");
-                    Log.v("Lifecycle", "Current fragment lifecycle = " + fragment.getLifecycle());
+
                     break;
                 case 2:
                     fragment = TrackerSubFragment.newInstance("tracker", "Treadmill");
-                    Log.v("Lifecycle", "Current fragment lifecycle = " + fragment.getLifecycle());
+
                     break;
                 default:
                     fragment = new HomeFragment();
