@@ -12,6 +12,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <Spinner
+            android:id="@+id/spinnerTrack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/filterTracker" />
+
+        <ListView
+            android:id="@+id/lvTrack"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
         <Button
             android:id="@+id/buttonTrackAdd"
             android:layout_width="match_parent"
@@ -19,13 +33,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/add" />
-
-        <ListView
-            android:id="@+id/lvTrack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
 
     </LinearLayout>
 
