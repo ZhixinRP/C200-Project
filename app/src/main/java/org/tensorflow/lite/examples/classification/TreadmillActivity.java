@@ -30,6 +30,8 @@ public class TreadmillActivity extends AppCompatActivity {
     Button btnAddTreadmill;
     ArrayList treadmillList;
     ArrayAdapter aaTreadmill;
+    String lastActivity;
+
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
@@ -45,6 +47,9 @@ public class TreadmillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_treadmill);
         getSupportActionBar().setTitle("Treadmill");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent get = getIntent();
+        lastActivity = get.getStringExtra("last");
 
         lvTreadmill = findViewById(R.id.lvTreadmill);
         btnAddTreadmill = findViewById(R.id.btn_Add_Treadmill);
@@ -90,8 +95,12 @@ public class TreadmillActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(TreadmillActivity.this, ClassifierActivity.class);
-        startActivity(intent);
+        if(lastActivity != null) {
+            if(lastActivity.equalsIgnoreCase("scan")) {
+                Intent intent = new Intent(TreadmillActivity.this, ClassifierActivity.class);
+                startActivity(intent);
+            }
+        }
         finish();
         return true;
 

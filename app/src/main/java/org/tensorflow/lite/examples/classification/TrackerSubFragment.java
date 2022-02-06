@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -91,13 +89,14 @@ public class TrackerSubFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.v("Tracker tab", "Tracker tab onCreateView is run, tab view created is " + mParam1 + " and " + mParam2);
+        Log.v("Trackertab", "Tracker tab onCreateView is run, tab view created is " + mParam1 + " and " + mParam2);
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tracker_sub, container, false);
         btnTrackAdd = v.findViewById(R.id.buttonTrackAdd);
@@ -125,7 +124,7 @@ public class TrackerSubFragment extends Fragment {
                         String metric1 = obj.getString("metric1");
                         String metric2 = obj.getString("metric2");
                         String metric3 = obj.getString("metric3");
-                        Equipment equipment = new Equipment(id, name, metric1, metric2, metric3, 100);
+                        Equipment equipment = new Equipment(id, name, metric1, metric2, metric3, 15);
                         //STORE RECORDS IN TO THE ARRAY
                         equipmentList.add(equipment);
                     }
@@ -134,99 +133,6 @@ public class TrackerSubFragment extends Fragment {
                 }
             }
         });
-
-
-
-//        trackList.clear();
-//        requestParams.put("username", sessionManager.getUsername());
-//        switch(mParam2) {
-//            case "legpress":
-//                trackList.clear();
-//                asyncHttpClient.get(ALL_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler(){
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        super.onSuccess(statusCode, headers, response);
-//                        try {
-//                            for(int i=0; i < response.length(); i++) {
-//                                int ID = i + 1;
-//                                JSONObject obj = (JSONObject)response.get(i);
-//                                String date = obj.getString("date");
-//                                String sets = obj.getString("sets");
-//                                String reps = obj.getString("reps");
-//                                String weight = obj.getString("weight");
-//                                String username = obj.getString("username");
-//                                //STORE RECORDS IN TO THE ARRAY
-//                                trackList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "KG");
-//                            }
-//                            //UPDATE THE LIST VIEW
-//                            aaTrack.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                break;
-//            case "latpulldown":
-//                trackList.clear();
-//                asyncHttpClient.get(ALL_LATPULLDOWN_URL, requestParams, new JsonHttpResponseHandler(){
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        super.onSuccess(statusCode, headers, response);
-//
-//                        try {
-//                            for(int i=0; i < response.length(); i++) {
-//                                int ID = i + 1;
-//                                JSONObject obj = (JSONObject)response.get(i);
-//                                String date = obj.getString("date");
-//                                String sets = obj.getString("sets");
-//                                String reps = obj.getString("reps");
-//                                String weight = obj.getString("weight");
-//                                String username = obj.getString("username");
-//                                //STORE RECORDS IN TO THE ARRAY
-//                                trackList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "KG");
-//                            }
-//                            //UPDATE THE LIST VIEW
-//                            aaTrack.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                break;
-//            case "treadmill":
-//                trackList.clear();
-//                asyncHttpClient.get(ALL_TREADMILL_URL, requestParams, new JsonHttpResponseHandler(){
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                        super.onSuccess(statusCode, headers, response);
-//
-//                        try {
-//                            for(int i=0; i < response.length(); i++) {
-//                                int ID = i + 1;
-//                                JSONObject obj = (JSONObject)response.get(i);
-//                                /*
-//                                FOR AMOS TO FILL UP THE CORRECT METRICS BELOW
-//                                 */
-//                                String date = obj.getString("date");
-//                                String sets = obj.getString("sets");
-//                                String reps = obj.getString("reps");
-//                                String weight = obj.getString("weight");
-//                                String username = obj.getString("username");
-//                                //STORE RECORDS IN TO THE ARRAY
-//                                trackList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Sets: " + sets + "\n" + "Reps: " + reps + "\n" + "Weight: " + weight + "KG");
-//                            }
-//                            //UPDATE THE LIST VIEW
-//                            aaTrack.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                break;
-//            default:
-//                Toast.makeText(getActivity(), "Error populating the table", Toast.LENGTH_SHORT).show();
-//                Log.d("tracker tabs", "Error trying to find/populate the table");
-//        }
 
         btnTrackAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,7 +179,7 @@ public class TrackerSubFragment extends Fragment {
                                 requestParams.put("sets", sets);
                                 requestParams.put("reps", reps);
                                 requestParams.put("weight", weight);
-                                requestParams.put("username", sessionManager.getUsername());
+                                requestParams.put("username", /*sessionManager.getUsername()*/ "Kenneth");
                                 Equipment currentEquipmentToAdd = null;
                                 for(int i = 0; i < equipmentList.size(); i++) {
                                     if(equipmentList.get(i).getEqName().equalsIgnoreCase(mParam2)) {
@@ -302,7 +208,7 @@ public class TrackerSubFragment extends Fragment {
 
                                             // CLEAR THE LISTVIEW AND GET ALL RECORDS FROM THE DATABASE BASED ON USERNAME (WHEN NEW RECORD ADDED)
                                             trackList.clear();
-                                            requestParams.put("username", sessionManager.getUsername());
+                                            requestParams.put("username", /*sessionManager.getUsername()*/ "Kenneth");
                                             asyncHttpClient.get(ALL_TRACK_URL, requestParams, new JsonHttpResponseHandler(){
                                                 @Override
                                                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -364,7 +270,7 @@ public class TrackerSubFragment extends Fragment {
         spinnerTrack.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                requestParams.put("username", sessionManager.getUsername());
+                requestParams.put("username", /*sessionManager.getUsername()*/ "Kenneth");
                 switch(position) {
                     case 0:
                         requestParams.put("filter", "none");
@@ -413,6 +319,15 @@ public class TrackerSubFragment extends Fragment {
                                     targetBool = true;
                                 }
                                 //STORE RECORDS IN TO THE ARRAY
+                                if(equipmentList.isEmpty()) {
+                                    equipmentList.clear();
+                                    Equipment eq1 = new Equipment(1, "Leg Press", "Sets", "Reps", "Weight", 20);
+                                    Equipment eq2 = new Equipment(2, "Lat Pulldown", "Sets", "Reps", "Weight", 15);
+                                    Equipment eq3 = new Equipment(2, "Treadmill", "Sets", "Reps", "Weight", 50);
+                                    equipmentList.add(eq1);
+                                    equipmentList.add(eq2);
+                                    equipmentList.add(eq3);
+                                }
                                 Equipment currentEquipmentToGet = null;
                                 for(int x = 0; x < equipmentList.size(); x++) {
                                     if(equipmentList.get(x).getEqName().equalsIgnoreCase(mParam2)) {
