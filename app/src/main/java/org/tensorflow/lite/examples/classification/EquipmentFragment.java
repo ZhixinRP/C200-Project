@@ -33,6 +33,8 @@ public class EquipmentFragment extends Fragment {
     ListView lvEquipments;
     ArrayList<Equipment> equipmentList;
     EquipmentAdapter adapter;
+    ArrayList<String> equipmentNameList;
+    ArrayAdapter<String> aaEquipmentName;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
@@ -58,7 +60,11 @@ public class EquipmentFragment extends Fragment {
         lvEquipments = v.findViewById(R.id.lvEquipments);
 
         adapter = new EquipmentAdapter(getActivity(), R.layout.equipment_layout, equipmentList);
-        lvEquipments.setAdapter(adapter);
+//        lvEquipments.setAdapter(adapter);
+
+        equipmentNameList = new ArrayList<String>();
+        aaEquipmentName = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, equipmentNameList);
+        lvEquipments.setAdapter(aaEquipmentName);
 
         asyncHttpClient.get(GET_EQUIPMENT_URL, requestParams, new JsonHttpResponseHandler(){
             @Override
@@ -75,8 +81,10 @@ public class EquipmentFragment extends Fragment {
                         //STORE RECORDS IN TO THE ARRAY
                         Equipment equipment = new Equipment(id, name, metric1, metric2, metric3, 100);
                         equipmentList.add(equipment);
+                        equipmentNameList.add(name);
                     }
-                    adapter.notifyDataSetChanged();
+//                    adapter.notifyDataSetChanged();
+                    aaEquipmentName.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
