@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -39,6 +43,7 @@ public class HomeFragment extends Fragment {
     SessionManager sessionManager;
     LinearLayout lyEquipment, lyChart;
     CircleImageView civProfile;
+    ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,21 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                    CropImage.ActivityResult resultIMG = CropImage.getActivityResult(result.getData());
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Uri resultUri = resultIMG.getUriContent();
+                        civProfile.setImageURI(resultUri);
+                    } else if (result.getResultCode() == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                        Exception error = resultIMG.getError();
+                    }
+                }
+            }
+        });
+
         civProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +120,7 @@ public class HomeFragment extends Fragment {
                                     Intent intent = new Intent();
                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                     intent.setData(Uri.fromParts("package", getActivity().getPackageName(),null));
-                                    startActivityForResult(intent, 51);
+                                    activityResultLauncher.launch(intent);
                                 }
                             });
                             builder.setNegativeButton("Cancel",null);
@@ -118,20 +138,6 @@ public class HomeFragment extends Fragment {
         });
 
         return v;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == Activity.RESULT_OK) {
-                Uri resultUri = result.getUriContent();
-                civProfile.setImageURI(resultUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
     }
 
 }
