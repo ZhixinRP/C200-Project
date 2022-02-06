@@ -24,13 +24,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/add_date"
+                    android:text="@string/edit_date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <DatePicker
-                    android:id="@+id/dp_LP_Date"
+                    android:id="@+id/edit_dp_LP_Date"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:calendarViewShown="false"
@@ -40,13 +40,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/add_time"
+                    android:text="@string/edit_time"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TimePicker
-                    android:id="@+id/tp_LP_Time"
+                    android:id="@+id/edit_tp_LP_Time"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:calendarViewShown="false"
@@ -61,21 +61,21 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/add_set"
+                            android:text="@string/edit_set"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/et_LP_Sets"
+                            android:id="@+id/edit_et_LP_Sets"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="3"
@@ -88,21 +88,21 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/add_rep"
+                            android:text="@string/edit_rep"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/et_LP_Reps"
+                            android:id="@+id/edit_et_LP_Reps"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="3"
@@ -114,21 +114,21 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/add_weight"
+                            android:text="@string/edit_weight"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/et_LP_Weight"
+                            android:id="@+id/edit_et_LP_Weight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="3"

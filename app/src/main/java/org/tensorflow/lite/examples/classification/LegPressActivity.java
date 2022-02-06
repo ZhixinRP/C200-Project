@@ -121,7 +121,7 @@ public class LegPressActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(!et_LP_Weight.getText().toString().trim().isEmpty() && !et_LP_Reps.getText().toString().trim().isEmpty() && !et_LP_Sets.getText().toString().trim().isEmpty()) {
-                            if (Integer.parseInt(et_LP_Weight.getText().toString()) <= 200 && Integer.parseInt(et_LP_Reps.getText().toString()) <= 50 && Integer.parseInt(et_LP_Sets.getText().toString()) <= 10) {
+                            if (Integer.parseInt(et_LP_Weight.getText().toString()) <= 200 && Integer.parseInt(et_LP_Reps.getText().toString()) <= 100 && Integer.parseInt(et_LP_Sets.getText().toString()) <= 100) {
                                 String date = String.format("%d/%d/%d", dp_LP_Date.getDayOfMonth(), dp_LP_Date.getMonth()+1, dp_LP_Date.getYear());
                                 requestParams.put("date", date);
                                 requestParams.put("weight", Integer.parseInt(et_LP_Weight.getText().toString()));
