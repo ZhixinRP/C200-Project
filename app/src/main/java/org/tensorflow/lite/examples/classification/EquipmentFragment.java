@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -19,6 +20,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tensorflow.lite.examples.classification.databinding.ActivityHomeBinding;
 
 import java.util.ArrayList;
 
@@ -26,9 +28,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class EquipmentFragment extends Fragment {
 
+    ActivityHomeBinding binding;
+
     ListView lvEquipments;
-    ArrayList equipmentsList;
-    ArrayAdapter aaEquipments;
+    ArrayList<Equipment> equipmentList;
+    EquipmentAdapter adapter;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
@@ -47,13 +51,14 @@ public class EquipmentFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_equipment, container, false);
 
-        lvEquipments = v.findViewById(R.id.lvEquipments);
-        equipmentsList = new ArrayList<String>();
-        aaEquipments = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, equipmentsList);
-        lvEquipments.setAdapter(aaEquipments);
-
         asyncHttpClient = new AsyncHttpClient();
         requestParams = new RequestParams();
+        equipmentList = new ArrayList<Equipment>();
+
+        lvEquipments = v.findViewById(R.id.lvEquipments);
+
+        adapter = new EquipmentAdapter(getActivity(), R.layout.equipment_layout, equipmentList);
+        lvEquipments.setAdapter(adapter);
 
         asyncHttpClient.get(GET_EQUIPMENT_URL, requestParams, new JsonHttpResponseHandler(){
             @Override
@@ -62,34 +67,23 @@ public class EquipmentFragment extends Fragment {
                 try {
                     for(int i=0; i < response.length(); i++) {
                         JSONObject obj = (JSONObject)response.get(i);
+                        int id = obj.getInt("equipment_id");
                         String name = obj.getString("name");
+                        String metric1 = obj.getString("metric1");
+                        String metric2 = obj.getString("metric2");
+                        String metric3 = obj.getString("metric3");
                         //STORE RECORDS IN TO THE ARRAY
-                        equipmentsList.add(name);
+                        Equipment equipment = new Equipment(id, name, metric1, metric2, metric3, 100);
+                        equipmentList.add(equipment);
                     }
-                    //UPDATE THE LIST VIEW
-                    aaEquipments.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        lvEquipments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if(position == 0) {
-                    Intent i = new Intent(getActivity(), LegPressActivity.class);
-                    startActivity(i);
-                } else if(position == 1) {
-                    Intent i = new Intent(getActivity(), LatPulldownActivity.class);
-                    startActivity(i);
-                } else if (position == 2) {
-                    Intent i = new Intent(getActivity(), TreadmillActivity.class);
-                    startActivity(i);
-                }
-            }
-        });
-
         return v;
     }
+
 }
