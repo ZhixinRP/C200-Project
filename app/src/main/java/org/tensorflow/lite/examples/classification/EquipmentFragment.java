@@ -28,13 +28,9 @@ import cz.msebera.android.httpclient.Header;
 
 public class EquipmentFragment extends Fragment {
 
-    ActivityHomeBinding binding;
-
     ListView lvEquipments;
     ArrayList<Equipment> equipmentList;
     EquipmentAdapter adapter;
-    ArrayList<String> equipmentNameList;
-    ArrayAdapter<String> aaEquipmentName;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
@@ -60,11 +56,7 @@ public class EquipmentFragment extends Fragment {
         lvEquipments = v.findViewById(R.id.lvEquipments);
 
         adapter = new EquipmentAdapter(getActivity(), R.layout.equipment_layout, equipmentList);
-//        lvEquipments.setAdapter(adapter);
-
-        equipmentNameList = new ArrayList<String>();
-        aaEquipmentName = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, equipmentNameList);
-        lvEquipments.setAdapter(aaEquipmentName);
+        lvEquipments.setAdapter(adapter);
 
         asyncHttpClient.get(GET_EQUIPMENT_URL, requestParams, new JsonHttpResponseHandler(){
             @Override
@@ -81,10 +73,8 @@ public class EquipmentFragment extends Fragment {
                         //STORE RECORDS IN TO THE ARRAY
                         Equipment equipment = new Equipment(id, name, metric1, metric2, metric3, 100);
                         equipmentList.add(equipment);
-                        equipmentNameList.add(name);
                     }
-//                    adapter.notifyDataSetChanged();
-                    aaEquipmentName.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

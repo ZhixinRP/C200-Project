@@ -56,8 +56,9 @@ public class EquipmentAdapter extends ArrayAdapter {
                     parent_context.startActivity(new Intent(parent_context, LegPressActivity.class));
                 } else if(current.getEqName().equals("Lat Pulldown")) {
                     Toast.makeText(getContext(), "LAT PULL CLICKED", Toast.LENGTH_SHORT).show();
+                    parent_context.startActivity(new Intent(parent_context, LatPulldownActivity.class));
                 } else if (current.getEqName().equals("Treadmill")) {
-
+                    parent_context.startActivity(new Intent(parent_context, TreadmillActivity.class));
                 }
             }
         });

@@ -182,7 +182,7 @@ public class TreadmillActivity extends AppCompatActivity {
         });
 
         // YOUTUBE PLAYER
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_treadmill_tutorial);
         getLifecycle().addObserver(youTubePlayerView);
 
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
