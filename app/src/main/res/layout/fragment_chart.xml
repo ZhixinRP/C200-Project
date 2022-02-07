@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ChartFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/bar_chart"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1" />
 
     <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/pie_chart"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1" />
 
-</FrameLayout>
+</LinearLayout>
