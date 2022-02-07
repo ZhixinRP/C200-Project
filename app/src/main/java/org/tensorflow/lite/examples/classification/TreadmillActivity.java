@@ -87,9 +87,11 @@ public class TreadmillActivity extends AppCompatActivity {
                         JSONObject obj = (JSONObject) response.get(i);
                         String date = obj.getString("date");
                         String time = obj.getString("time");
+                        String speed = obj.getString("speed");
                         String distance = obj.getString("distance");
                         //STORE RECORDS IN TO THE ARRAY
-                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" + "Distance: " + distance + "KM");
+                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" +
+                                "Distance: " + distance + "KM" + "\n" + "Average Speed" + speed + "m/s");
                     }
                     //UPDATE THE LIST VIEW
                     aaTreadmill.notifyDataSetChanged();
@@ -130,13 +132,17 @@ public class TreadmillActivity extends AppCompatActivity {
                         if (validInput) {
                             int treadmillMinutesInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
                             int treadmillSecondsInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
+                            int treadmillDistanceInt = (Integer.parseInt(treadmillDistance.getText().toString()));
                             int treadmillTime = (treadmillMinutesInt * 60) + treadmillSecondsInt;
+
+                            int speed = treadmillDistanceInt / treadmillTime;
 
                             String date = String.format("%d/%d/%d", treadmillDate.getDayOfMonth(), treadmillDate.getMonth() + 1, treadmillDate.getYear());
                             requestParams.put("date", date);
                             requestParams.put("distance", Integer.parseInt(treadmillDistance.getText().toString()));
                             requestParams.put("time", treadmillTime);
                             requestParams.put("equipment", "Treadmill");
+                            requestParams.put("speed", speed);
                             requestParams.put("username", sessionManager.getUsername());
 
                             // ADD THE NEW RECORD INTO THE DATABASE
@@ -165,10 +171,12 @@ public class TreadmillActivity extends AppCompatActivity {
                                                         JSONObject obj = (JSONObject) response.get(i);
                                                         String date = obj.getString("date");
                                                         String distance = obj.getString("distance");
+                                                        String speed = obj.getString("speed");
                                                         String time = obj.getString("time");
                                                         String username = obj.getString("username");
                                                         //STORE RECORDS IN TO THE ARRAY
-                                                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" + "Distance: " + distance + "KM" + "Username: " + username);
+                                                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" +
+                                                                "Distance: " + distance + "KM" + "Average Speed" + speed + "\n" + "Username: " + username);
                                                     }
                                                     //UPDATE THE LIST VIEW
                                                     aaTreadmill.notifyDataSetChanged();
