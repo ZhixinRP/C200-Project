@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -86,11 +88,11 @@ public class TreadmillActivity extends AppCompatActivity {
                         int ID = i + 1;
                         JSONObject obj = (JSONObject) response.get(i);
                         String date = obj.getString("date");
-                        String time = obj.getString("time");
+                        String timing = obj.getString("timing");
                         String speed = obj.getString("speed");
                         String distance = obj.getString("distance");
                         //STORE RECORDS IN TO THE ARRAY
-                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" +
+                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Timing: " + timing + "\n" +
                                 "Distance: " + distance + "KM" + "\n" + "Average Speed" + speed + "m/s");
                     }
                     //UPDATE THE LIST VIEW
@@ -109,6 +111,7 @@ public class TreadmillActivity extends AppCompatActivity {
                 View viewDialog = inflater.inflate(R.layout.add_treadmill, null);
 
                 DatePicker treadmillDate = viewDialog.findViewById(R.id.dp_Treadmill_Date);
+                TimePicker treadmillTime = viewDialog.findViewById(R.id.tp_Treadmill_Time);
                 EditText treadmillDistance = viewDialog.findViewById(R.id.et_Treadmill_Distance);
                 EditText treadmillMinutes = viewDialog.findViewById(R.id.et_Treadmill_Minutes);
                 EditText treadmillSeconds = viewDialog.findViewById(R.id.et_Treadmill_Seconds);
@@ -121,7 +124,7 @@ public class TreadmillActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boolean validInput = false;
-
+                        Log.d("Log", "In line 125");
                         //Check user input is valid
                         if (!treadmillDistance.getText().toString().trim().isEmpty() &&
                                 !treadmillMinutes.getText().toString().trim().isEmpty() &&
@@ -133,14 +136,17 @@ public class TreadmillActivity extends AppCompatActivity {
                             int treadmillMinutesInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
                             int treadmillSecondsInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
                             int treadmillDistanceInt = (Integer.parseInt(treadmillDistance.getText().toString()));
-                            int treadmillTime = (treadmillMinutesInt * 60) + treadmillSecondsInt;
+                            int treadmillTiming = (treadmillMinutesInt * 60) + treadmillSecondsInt;
+                            Log.d("Log", "In line 138");
 
-                            int speed = treadmillDistanceInt / treadmillTime;
+                            int speed = treadmillDistanceInt / treadmillTiming;
 
                             String date = String.format("%d/%d/%d", treadmillDate.getDayOfMonth(), treadmillDate.getMonth() + 1, treadmillDate.getYear());
+                            String time = String.format("%d:%d:00", treadmillTime.getHour(), treadmillTime.getMinute());
+
                             requestParams.put("date", date);
                             requestParams.put("distance", Integer.parseInt(treadmillDistance.getText().toString()));
-                            requestParams.put("time", treadmillTime);
+                            requestParams.put("timing", treadmillTiming);
                             requestParams.put("equipment", "Treadmill");
                             requestParams.put("speed", speed);
                             requestParams.put("username", sessionManager.getUsername());
@@ -151,6 +157,7 @@ public class TreadmillActivity extends AppCompatActivity {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     super.onSuccess(statusCode, headers, response);
                                     try {
+                                        Log.d("Log", "In line 155");
                                         boolean result = response.getBoolean("result");
                                         if (result) {
                                             Toast.makeText(TreadmillActivity.this, "Added Succesfully", Toast.LENGTH_SHORT).show();
@@ -172,10 +179,10 @@ public class TreadmillActivity extends AppCompatActivity {
                                                         String date = obj.getString("date");
                                                         String distance = obj.getString("distance");
                                                         String speed = obj.getString("speed");
-                                                        String time = obj.getString("time");
+                                                        String timing = obj.getString("timing");
                                                         String username = obj.getString("username");
                                                         //STORE RECORDS IN TO THE ARRAY
-                                                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" +
+                                                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Timing: " + timing + "\n" +
                                                                 "Distance: " + distance + "KM" + "Average Speed" + speed + "\n" + "Username: " + username);
                                                     }
                                                     //UPDATE THE LIST VIEW

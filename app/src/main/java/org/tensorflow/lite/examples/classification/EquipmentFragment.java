@@ -37,7 +37,6 @@ public class EquipmentFragment extends Fragment {
 
     String GET_EQUIPMENT_URL = UtilityManager.BASE_URL + "c200/getAllEquipment.php";
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
