@@ -43,7 +43,6 @@ public class TreadmillActivity extends AppCompatActivity {
     ArrayAdapter aaTreadmill;
     String lastActivity;
 
-
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
 
