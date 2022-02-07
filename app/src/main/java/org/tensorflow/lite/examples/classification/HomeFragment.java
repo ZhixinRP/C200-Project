@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
 
     TextView tv_username;
     SessionManager sessionManager;
-    LinearLayout lyEquipment, lyChart;
+    LinearLayout lyEquipment, lyChart, lyScanner, lyTracker;
     CircleImageView civProfile;
     ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -57,12 +57,13 @@ public class HomeFragment extends Fragment {
         tv_username = v.findViewById(R.id.tv_username);
         lyEquipment = v.findViewById(R.id.equipmentBtn);
         lyChart = v.findViewById(R.id.chartBtn);
+        lyScanner = v.findViewById(R.id.scannerBtn);
+        lyTracker = v.findViewById(R.id.trackerBtn);
         civProfile = v.findViewById(R.id.profile_img);
 
         sessionManager = new SessionManager(getActivity().getApplicationContext());
 
         String username = sessionManager.getUsername();
-
 
         tv_username.setText(username);
 
@@ -81,6 +82,23 @@ public class HomeFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.flHome, new ChartFragment()).commit();
                 BottomNavigationView bnv = getActivity().findViewById(R.id.bottomNavigation);
                 bnv.setSelectedItemId(R.id.navigation_chart);
+            }
+        });
+
+        lyTracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.flHome, new TrackerFragment()).commit();
+                BottomNavigationView bnv = getActivity().findViewById(R.id.bottomNavigation);
+                bnv.setSelectedItemId(R.id.navigation_tracker);
+            }
+        });
+
+        lyScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ClassifierActivity.class);
+                startActivity(intent);
             }
         });
 
