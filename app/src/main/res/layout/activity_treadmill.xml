@@ -142,10 +142,7 @@
                 <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                     android:id="@+id/youtube_treadmill_tutorial"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:videoId="usScM1QZrQw"
-                    app:autoPlay="false" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/textView4"

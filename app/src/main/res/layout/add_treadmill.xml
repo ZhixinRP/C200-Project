@@ -53,18 +53,34 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Time (hhmm)"
+                    android:text="Time"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/et_Treadmill_Time"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:textColor="#000000" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_Treadmill_Minutes"
+                        android:layout_width="192dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Minutes"
+                        android:inputType="textPersonName"
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/et_Treadmill_Seconds"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Seconds"
+                        android:inputType="textPersonName"
+                        android:textColor="#000000" />
+                </LinearLayout>
 
             </LinearLayout>
 

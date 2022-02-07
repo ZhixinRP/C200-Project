@@ -26,6 +26,7 @@ public class ChartFragment extends Fragment {
 
     public ChartFragment() {
         // Required empty public constructor
+
     }
 
     /**

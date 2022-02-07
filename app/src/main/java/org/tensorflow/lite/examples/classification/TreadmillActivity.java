@@ -1,6 +1,5 @@
 package org.tensorflow.lite.examples.classification;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -110,7 +109,8 @@ public class TreadmillActivity extends AppCompatActivity {
 
                 DatePicker treadmillDate = viewDialog.findViewById(R.id.dp_Treadmill_Date);
                 EditText treadmillDistance = viewDialog.findViewById(R.id.et_Treadmill_Distance);
-                EditText treadmillTime = viewDialog.findViewById(R.id.et_Treadmill_Time);
+                EditText treadmillMinutes = viewDialog.findViewById(R.id.et_Treadmill_Minutes);
+                EditText treadmillSeconds = viewDialog.findViewById(R.id.et_Treadmill_Seconds);
 
                 //DIALOG POPUP FOR ADDING NEW ENTRY
                 AlertDialog.Builder myBuilder = new AlertDialog.Builder(TreadmillActivity.this);
@@ -119,11 +119,24 @@ public class TreadmillActivity extends AppCompatActivity {
                 myBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!treadmillDistance.getText().toString().trim().isEmpty() && !treadmillTime.getText().toString().trim().isEmpty()) {
+                        boolean validInput = false;
+
+                        //Check user input is valid
+                        if (!treadmillDistance.getText().toString().trim().isEmpty() &&
+                                !treadmillMinutes.getText().toString().trim().isEmpty() &&
+                                !treadmillSeconds.getText().toString().trim().isEmpty()) {
+                            validInput = true;
+                        }
+
+                        if (validInput) {
+                            int treadmillMinutesInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
+                            int treadmillSecondsInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
+                            int treadmillTime = (treadmillMinutesInt * 60) + treadmillSecondsInt;
+
                             String date = String.format("%d/%d/%d", treadmillDate.getDayOfMonth(), treadmillDate.getMonth() + 1, treadmillDate.getYear());
                             requestParams.put("date", date);
                             requestParams.put("distance", Integer.parseInt(treadmillDistance.getText().toString()));
-                            requestParams.put("time", Integer.parseInt(treadmillTime.getText().toString()));
+                            requestParams.put("time", treadmillTime);
                             requestParams.put("equipment", "Treadmill");
                             requestParams.put("username", sessionManager.getUsername());
 
@@ -152,8 +165,8 @@ public class TreadmillActivity extends AppCompatActivity {
                                                         int ID = i + 1;
                                                         JSONObject obj = (JSONObject) response.get(i);
                                                         String date = obj.getString("date");
-                                                        String distance = obj.getString("sets");
-                                                        String time = obj.getString("reps");
+                                                        String distance = obj.getString("distance");
+                                                        String time = obj.getString("time");
                                                         String username = obj.getString("username");
                                                         //STORE RECORDS IN TO THE ARRAY
                                                         treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Time: " + time + "\n" + "Distance: " + distance + "KM" + "Username: " + username);
@@ -182,7 +195,7 @@ public class TreadmillActivity extends AppCompatActivity {
         });
 
         // YOUTUBE PLAYER
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_treadmill_tutorial);
         getLifecycle().addObserver(youTubePlayerView);
 
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
