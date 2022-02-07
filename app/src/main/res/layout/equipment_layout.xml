@@ -22,7 +22,7 @@
                 android:id="@+id/equipmentIMG"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                tools:srcCompat="@drawable/treadmill" />
+                tools:srcCompat="@drawable/treadmill_img"/>
 
             <TextView
                 android:id="@+id/equipmentTitle"
