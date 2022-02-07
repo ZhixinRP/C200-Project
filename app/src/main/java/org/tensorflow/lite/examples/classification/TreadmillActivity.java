@@ -42,7 +42,9 @@ public class TreadmillActivity extends AppCompatActivity {
     ListView lvTreadmill;
     Button btnAddTreadmill;
     ArrayList treadmillList;
+    ArrayList<Equipment> equipmentList;
     ArrayAdapter aaTreadmill;
+
     String lastActivity;
 
     AsyncHttpClient asyncHttpClient;
@@ -50,8 +52,9 @@ public class TreadmillActivity extends AppCompatActivity {
 
     SessionManager sessionManager;
 
-    String ADD_LEGPRESS_URL = UtilityManager.BASE_URL + "c200/addTreadmill.php";
-    String ALL_LEGPRESS_URL = UtilityManager.BASE_URL + "c200/getTreadmill.php?";
+    String ADD_TREADMILL_URL = UtilityManager.BASE_URL + "c200/addTreadmill.php";
+    String ALL_TREADMILL_URL = UtilityManager.BASE_URL + "c200/getTreadmill.php?";
+    String ALL_EQUIPMENT_URL = UtilityManager.BASE_URL + "c200/getAllEquipment.php?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,32 +78,115 @@ public class TreadmillActivity extends AppCompatActivity {
         asyncHttpClient = new AsyncHttpClient();
         requestParams = new RequestParams();
 
-        // CLEAR THE LISTVIEW AND GET ALL RECORDS FROM THE DATABASE BASED ON USERNAME (WHEN ACTIVITY LOADED)
+        equipmentList = new ArrayList<Equipment>();
+
+        asyncHttpClient.get(ALL_EQUIPMENT_URL, requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    for(int i=0; i < response.length(); i++) {
+                        JSONObject obj = (JSONObject) response.get(i);
+                        int id = obj.getInt("equipment_id");
+                        String name = obj.getString("name");
+                        String metric1 = obj.getString("metric1");
+                        String metric2 = obj.getString("metric2");
+                        String metric3 = obj.getString("metric3");
+                        Equipment equipment;
+                        switch(sessionManager.getUsername()) {
+                            case "Kenneth":
+                                switch(i) {
+                                    case 0:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 30);
+                                        break;
+                                    case 1:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 24);
+                                        break;
+                                    case 2:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 12.59);
+                                        break;
+                                    default:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                        break;
+                                }
+                                break;
+                            case "Zhixin":
+                                switch(i) {
+                                    case 0:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 32);
+                                        break;
+                                    case 1:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 14);
+                                        break;
+                                    case 2:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 11.45);
+                                        break;
+                                    default:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                        break;
+                                }
+                                break;
+                            case "Amos":
+                                switch(i) {
+                                    case 0:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 28);
+                                        break;
+                                    case 1:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 20);
+                                        break;
+                                    case 2:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 13.45);
+                                        break;
+                                    default:
+                                        equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                        break;
+                                }
+                                break;
+                            default:
+                                equipment = new Equipment(id, name, metric1, metric2, metric3, 50);
+                                break;
+                        }
+
+                        //STORE RECORDS IN TO THE ARRAY
+                        equipmentList.add(equipment);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         treadmillList.clear();
         requestParams.put("username", sessionManager.getUsername());
-        asyncHttpClient.get(ALL_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler() {
+
+        asyncHttpClient.get(ALL_TREADMILL_URL, requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
 
                 try {
-                    for (int i = 0; i < response.length(); i++) {
-                        int ID = i + 1;
-                        JSONObject obj = (JSONObject) response.get(i);
+                    for(int i=0; i < response.length(); i++) {
+                        int id = i+1;
+                        JSONObject obj = (JSONObject)response.get(i);
                         String date = obj.getString("date");
-                        String timing = obj.getString("timing");
-                        String speed = obj.getString("speed");
-                        String distance = obj.getString("distance");
+                        String time = obj.getString("time");
+                        double distance = obj.getDouble("distance");
+                        int timing = obj.getInt("timing");
+                        double speed = obj.getDouble("speed");
+
+                        int timingSeconds = timing % 60;
+                        int timingMinutes = (timing - timingSeconds) / 60;
+
+                        String entry = String.format("%s - %s \nDistance: %s \nTiming: %s \nAverage Speed: %.1f m/s",
+                                date, time, distance / 1000 + "km", timingMinutes + " Minutes " + timingSeconds + " Seconds", speed);
                         //STORE RECORDS IN TO THE ARRAY
-                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Timing: " + timing + "\n" +
-                                "Distance: " + distance + "KM" + "\n" + "Average Speed" + speed + "m/s");
+                        treadmillList.add(entry);
                     }
                     //UPDATE THE LIST VIEW
                     aaTreadmill.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -110,11 +196,11 @@ public class TreadmillActivity extends AppCompatActivity {
                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View viewDialog = inflater.inflate(R.layout.add_treadmill, null);
 
-                DatePicker treadmillDate = viewDialog.findViewById(R.id.dp_Treadmill_Date);
-                TimePicker treadmillTime = viewDialog.findViewById(R.id.tp_Treadmill_Time);
-                EditText treadmillDistance = viewDialog.findViewById(R.id.et_Treadmill_Distance);
-                EditText treadmillMinutes = viewDialog.findViewById(R.id.et_Treadmill_Minutes);
-                EditText treadmillSeconds = viewDialog.findViewById(R.id.et_Treadmill_Seconds);
+                DatePicker dpTreadmill = viewDialog.findViewById(R.id.dp_Treadmill_Date);
+                TimePicker tpTreadmill = viewDialog.findViewById(R.id.tp_Treadmill_Time);
+                EditText etTreadmillDistance = viewDialog.findViewById(R.id.et_Treadmill_Distance);
+                EditText etTreadmillMinutes = viewDialog.findViewById(R.id.et_Treadmill_Minutes);
+                EditText etTreadmillSeconds = viewDialog.findViewById(R.id.et_Treadmill_Seconds);
 
                 //DIALOG POPUP FOR ADDING NEW ENTRY
                 AlertDialog.Builder myBuilder = new AlertDialog.Builder(TreadmillActivity.this);
@@ -124,79 +210,90 @@ public class TreadmillActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boolean validInput = false;
-                        Log.d("Log", "In line 125");
-                        //Check user input is valid
-                        if (!treadmillDistance.getText().toString().trim().isEmpty() &&
-                                !treadmillMinutes.getText().toString().trim().isEmpty() &&
-                                !treadmillSeconds.getText().toString().trim().isEmpty()) {
+
+                        if(!etTreadmillDistance.getText().toString().trim().isEmpty() &&
+                                !etTreadmillMinutes.getText().toString().trim().isEmpty() &&
+                                !etTreadmillSeconds.getText().toString().trim().isEmpty()) {
                             validInput = true;
                         }
 
-                        if (validInput) {
-                            int treadmillMinutesInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
-                            int treadmillSecondsInt = (Integer.parseInt(treadmillMinutes.getText().toString()));
-                            int treadmillDistanceInt = (Integer.parseInt(treadmillDistance.getText().toString()));
-                            int treadmillTiming = (treadmillMinutesInt * 60) + treadmillSecondsInt;
-                            Log.d("Log", "In line 138");
-
-                            int speed = treadmillDistanceInt / treadmillTiming;
-
-                            String date = String.format("%d/%d/%d", treadmillDate.getDayOfMonth(), treadmillDate.getMonth() + 1, treadmillDate.getYear());
-                            String time = String.format("%d:%d:00", treadmillTime.getHour(), treadmillTime.getMinute());
-
-                            requestParams.put("date", date);
-                            requestParams.put("distance", Integer.parseInt(treadmillDistance.getText().toString()));
-                            requestParams.put("timing", treadmillTiming);
-                            requestParams.put("equipment", "Treadmill");
-                            requestParams.put("speed", speed);
-                            requestParams.put("username", sessionManager.getUsername());
-
-                            // ADD THE NEW RECORD INTO THE DATABASE
-                            asyncHttpClient.post(ADD_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    super.onSuccess(statusCode, headers, response);
-                                    try {
-                                        Log.d("Log", "In line 155");
-                                        boolean result = response.getBoolean("result");
-                                        if (result) {
-                                            Toast.makeText(TreadmillActivity.this, "Added Succesfully", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(TreadmillActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        if(validInput) {
+                            String date = String.format("%d-%d-%d", dpTreadmill.getYear(), dpTreadmill.getMonth()+1, dpTreadmill.getDayOfMonth());
+                            String time = String.format("%d:%d:00", tpTreadmill.getCurrentHour(), tpTreadmill.getCurrentMinute());
+                            int distance = Integer.parseInt(etTreadmillDistance.getText().toString()) * 1000;
+                            int timing = (Integer.parseInt(etTreadmillMinutes.getText().toString()) * 60) +
+                                    Integer.parseInt(etTreadmillSeconds.getText().toString());
+                            double speed = distance / timing;
+                            int targetHit = 0;
+                            if(distance <= 99999 && timing <= 9999 && speed <= 99.9) {
+                                requestParams.put("equipment", "Treadmill");
+                                requestParams.put("date", date);
+                                requestParams.put("time", time);
+                                requestParams.put("distance", distance);
+                                requestParams.put("timing", timing);
+                                requestParams.put("speed", speed);
+                                requestParams.put("username", sessionManager.getUsername());
+                                for(int i = 0; i < equipmentList.size(); i++) {
+                                    if(equipmentList.get(i).getEqName().equalsIgnoreCase("Treadmill")) {
+                                        if(distance >= equipmentList.get(i).getTarget()) {
+                                            targetHit = 1;
+                                            break;
                                         }
-
-                                        // CLEAR THE LISTVIEW AND GET ALL RECORDS FROM THE DATABASE BASED ON USERNAME (WHEN NEW RECORD ADDED)
-                                        treadmillList.clear();
-                                        requestParams.put("username", sessionManager.getUsername());
-                                        asyncHttpClient.get(ALL_LEGPRESS_URL, requestParams, new JsonHttpResponseHandler() {
-                                            @Override
-                                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                                                super.onSuccess(statusCode, headers, response);
-                                                try {
-                                                    for (int i = 0; i < response.length(); i++) {
-                                                        int ID = i + 1;
-                                                        JSONObject obj = (JSONObject) response.get(i);
-                                                        String date = obj.getString("date");
-                                                        String distance = obj.getString("distance");
-                                                        String speed = obj.getString("speed");
-                                                        String timing = obj.getString("timing");
-                                                        String username = obj.getString("username");
-                                                        //STORE RECORDS IN TO THE ARRAY
-                                                        treadmillList.add("ID: " + ID + "\n" + "Date: " + date + "\n" + "Timing: " + timing + "\n" +
-                                                                "Distance: " + distance + "KM" + "Average Speed" + speed + "\n" + "Username: " + username);
-                                                    }
-                                                    //UPDATE THE LIST VIEW
-                                                    aaTreadmill.notifyDataSetChanged();
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
                                     }
                                 }
-                            });
+                                requestParams.put("target_hit", targetHit);
+                                asyncHttpClient.post(ADD_TREADMILL_URL, requestParams, new JsonHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        super.onSuccess(statusCode, headers, response);
+                                        try {
+                                            boolean result = response.getBoolean("result");
+                                            if (result) {
+                                                Toast.makeText(TreadmillActivity.this, "Successfully added entry", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(TreadmillActivity.this, "Failed to add entry", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            // CLEAR THE LISTVIEW AND GET ALL RECORDS FROM THE DATABASE BASED ON USERNAME (WHEN NEW RECORD ADDED)
+                                            treadmillList.clear();
+                                            requestParams.put("username", sessionManager.getUsername());
+                                            asyncHttpClient.get(ALL_TREADMILL_URL, requestParams, new JsonHttpResponseHandler(){
+                                                @Override
+                                                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                                    super.onSuccess(statusCode, headers, response);
+                                                    try {
+                                                        for(int i=0; i < response.length(); i++) {
+                                                            int id = i+1;
+                                                            JSONObject obj = (JSONObject)response.get(i);
+                                                            String date = obj.getString("date");
+                                                            String time = obj.getString("time");
+                                                            float distance = obj.getInt("distance");
+                                                            int timing = obj.getInt("timing");
+                                                            double speed = obj.getDouble("speed");
+
+                                                            int timingSeconds = timing % 60;
+                                                            int timingMinutes = (timing - timingSeconds) / 60;
+
+                                                            String entry = String.format("%s - %s \nDistance: %s \nTiming: %s \nAverage Speed: %.1f m/s",
+                                                                    date, time, distance / 1000 + "km", timingMinutes + " Minutes " + timingSeconds + " Seconds", speed);
+                                                            //STORE RECORDS IN TO THE ARRAY
+                                                            treadmillList.add(entry);
+                                                        }
+                                                        //UPDATE THE LIST VIEW
+                                                        aaTreadmill.notifyDataSetChanged();
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(TreadmillActivity.this, "Please fill in appropriate values!", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(TreadmillActivity.this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
                         }

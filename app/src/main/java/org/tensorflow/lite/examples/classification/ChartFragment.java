@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.classification;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -21,17 +23,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ChartFragment extends Fragment {
-    LineChart lineChart;
+    LineChart latPulldownChart;
 
-    ArrayList<Entry> latPullDownSetEntries;
-    ArrayList<Entry> latPullDownRepEntries;
-    ArrayList<Entry> latPullDownWeightEntries;
-
+    ArrayList<Entry> latPullDownEntries;
     ArrayList<Entry> legPressEntries;
     ArrayList<Entry> treadmillEntries;
 
@@ -62,14 +60,12 @@ public class ChartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chart, container, false);
-        lineChart = v.findViewById(R.id.line_chart);
+        latPulldownChart = v.findViewById(R.id.lat_pulldown_chart);
 
-        latPullDownSetEntries = new ArrayList<>();
-        latPullDownRepEntries = new ArrayList<>();
-        latPullDownWeightEntries = new ArrayList<>();
+        latPullDownEntries = new ArrayList<>();
 
-        legPressEntries = new ArrayList<>();
-        treadmillEntries = new ArrayList<>();
+        asyncHttpClient = new AsyncHttpClient();
+        requestParams = new RequestParams();
 
         //Fill ArrayLists with data
         asyncHttpClient.get(GET_LAT_PULLDOWN, requestParams, new JsonHttpResponseHandler(){
@@ -77,30 +73,24 @@ public class ChartFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
+                    Toast.makeText(getActivity(), "Line76", Toast.LENGTH_SHORT).show();
                     String previousDate = "";
                     for(int i=0; i < response.length(); i++) {
                         JSONObject obj = (JSONObject)response.get(i);
-                        String date = obj.getString("metric1");
-                        int sets = obj.getInt("sets");
-                        int reps = obj.getInt("reps");
+                        String date = obj.getString("date");
                         int weight = obj.getInt("weight");
 
                         //Check if entry is recorded on the same day. If so, add the numbers to the previous entry.
                         if (date.equals(previousDate)) {
-
-                            latPullDownSetEntries.set(latPullDownSetEntries.size() - 1,
-                                    latPullDownSetEntries.get(latPullDownSetEntries.size()-1 + sets));
-
-                            latPullDownWeightEntries.set(latPullDownWeightEntries.size() - 1,
-                                    latPullDownWeightEntries.get(latPullDownWeightEntries.size()-1 + weight));
-
-                            latPullDownRepEntries.set(latPullDownRepEntries.size() - 1,
-                                    latPullDownRepEntries.get(latPullDownRepEntries.size()-1 + reps));
+                            float xValue = latPullDownEntries.get(latPullDownEntries.size() - 1).getX();
+                            float previousWeight =  latPullDownEntries.get(latPullDownEntries.size() - 1).getY();
+                            float newWeight = previousWeight + weight;
+                            latPullDownEntries.set(latPullDownEntries.size() - 1,
+                                    new Entry(xValue, newWeight));
                         }
                         else {
-                            latPullDownSetEntries.add(new Entry(i + 1, sets));
-                            latPullDownWeightEntries.add(new Entry(i + 1, weight));
-                            latPullDownRepEntries.add(new Entry(i + 1, reps));
+                            latPullDownEntries.add(new Entry(i + 1, weight));
+                            previousDate = date;
                         }
                     }
                 } catch (JSONException e) {
@@ -109,13 +99,11 @@ public class ChartFragment extends Fragment {
             }
         });
 
-        //latPullDownSet = new LineDataSet(latPullDownEntries, "Lat Pulldown");
-        legPressSet = new LineDataSet(legPressEntries, "Leg Press");
-        treadmillSet = new LineDataSet(treadmillEntries, "Treadmill");
+        latPullDownSet = new LineDataSet(latPullDownEntries, "Lat Pulldown");
 
         latPullDownData = new LineData(latPullDownSet);
-        legPressData = new LineData(legPressSet);
-        treadmillData = new LineData(treadmillSet);
+
+        latPulldownChart.setData(latPullDownData);
 
         return v;
     }
