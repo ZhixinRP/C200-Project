@@ -66,6 +66,8 @@ public class ChartFragment extends Fragment {
         legpressChart = v.findViewById(R.id.legpress_chart);
 
         ArrayList<BarEntry> lpEntries = new ArrayList<>();
+        ArrayList<BarEntry> tmEntries = new ArrayList<>();
+        ArrayList<BarEntry> lgEntries = new ArrayList<>();
 
         requestParams.put("username", sessionManager.getUsername());
         asyncHttpClient.get("http://10.0.2.2/c200/getLatPulldownAsc.php", requestParams, new JsonHttpResponseHandler(){
@@ -101,6 +103,84 @@ public class ChartFragment extends Fragment {
                     //Set description text and color
                     latPulldownChart.getDescription().setText("Lat Pulldown");
                     latPulldownChart.getDescription().setTextColor(Color.BLUE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        asyncHttpClient.get("http://10.0.2.2/c200/getTreadmillAsc.php", requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    for(int i=0; i < response.length(); i++) {
+                        JSONObject obj = (JSONObject)response.get(i);
+                        int distance = obj.getInt("distance");
+
+                        //Initialise chart entry
+                        BarEntry tmEntry = new BarEntry(i + 1, distance);
+
+                        //Add values in array list
+                        tmEntries.add(tmEntry);
+                    }
+                    //Initialise bar data set
+                    BarDataSet tmDataSet = new BarDataSet(tmEntries, "Distance");
+
+                    //Set colours
+                    tmDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    //Hide draw value
+                    tmDataSet.setDrawValues(false);
+
+                    //Set bar data
+                    treadmillChart.setData(new BarData(tmDataSet));
+
+                    //Set animation
+                    treadmillChart.animateY(5000);
+
+                    //Set description text and color
+                    treadmillChart.getDescription().setText("Treadmill");
+                    treadmillChart.getDescription().setTextColor(Color.BLUE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        asyncHttpClient.get("http://10.0.2.2/c200/getLegpressAsc.php", requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    for(int i=0; i < response.length(); i++) {
+                        JSONObject obj = (JSONObject)response.get(i);
+                        int reps = obj.getInt("reps");
+
+                        //Initialise chart entry
+                        BarEntry lgEntry = new BarEntry(i + 1, reps);
+
+                        //Add values in array list
+                        lgEntries.add(lgEntry);
+                    }
+                    //Initialise bar data set
+                    BarDataSet lgDataSet = new BarDataSet(lgEntries, "Reps");
+
+                    //Set colours
+                    lgDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    //Hide draw value
+                    lgDataSet.setDrawValues(false);
+
+                    //Set bar data
+                    legpressChart.setData(new BarData(lgDataSet));
+
+                    //Set animation
+                    legpressChart.animateY(5000);
+
+                    //Set description text and color
+                    legpressChart.getDescription().setText("Leg Press");
+                    legpressChart.getDescription().setTextColor(Color.BLUE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
