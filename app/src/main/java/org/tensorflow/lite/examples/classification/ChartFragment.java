@@ -8,20 +8,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -36,12 +27,16 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class ChartFragment extends Fragment {
-    BarChart barChart;
+    BarChart latPulldownChart;
+    BarChart treadmillChart;
+    BarChart legpressChart;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
 
     String GET_LAT_PULLDOWN_URL = UtilityManager.BASE_URL + "c200/getLatPulldownAsc.php";
+    String GET_TREADMILL_URL = UtilityManager.BASE_URL + "c200/getTreadmillAsc.php";
+    String GET_LEG_PRESS_URL = UtilityManager.BASE_URL + "c200/getLegpressAsc.php";
 
     public ChartFragment() {
         // Required empty public constructor
@@ -58,9 +53,13 @@ public class ChartFragment extends Fragment {
         asyncHttpClient = new AsyncHttpClient();
         requestParams = new RequestParams();
 
-        barChart = v.findViewById(R.id.bar_chart);
+        latPulldownChart = v.findViewById(R.id.latpulldown_chart);
+        treadmillChart = v.findViewById(R.id.treadmill_chart);
+        legpressChart = v.findViewById(R.id.legpress_chart);
 
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        ArrayList<BarEntry> latPulldownEntries = new ArrayList<>();
+        ArrayList<BarEntry> treadmillEntries = new ArrayList<>();
+        ArrayList<BarEntry> legpressEntries = new ArrayList<>();
 
         asyncHttpClient.get(GET_LAT_PULLDOWN_URL, requestParams, new JsonHttpResponseHandler(){
             @Override
@@ -69,16 +68,16 @@ public class ChartFragment extends Fragment {
                 try {
                     for(int i=0; i < response.length(); i++) {
                         JSONObject obj = (JSONObject)response.get(i);
-                        int weight = obj.getInt("weight");
+                        int reps = obj.getInt("reps");
+
                         //STORE RECORDS IN TO THE ARRAY
 
                         //Initialise chart entry
-                        BarEntry barEntry = new BarEntry(i, weight);
+                        BarEntry latPulldownEntry = new BarEntry(i, reps);
 
                         //Add values in array list
-                        barEntries.add(barEntry);
+                        latPulldownEntries.add(latPulldownEntry);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -86,22 +85,39 @@ public class ChartFragment extends Fragment {
         });
 
         //Initialise bar data set
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Weight (kg)");
+        BarDataSet latPulldownSet = new BarDataSet(latPulldownEntries, "Weight (kg)");
+        BarDataSet treadmillSet = new BarDataSet(latPulldownEntries, "Distance (km)");
+        BarDataSet legpressSet = new BarDataSet(latPulldownEntries, "Weight (kg)");
 
         //Set colours
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        latPulldownSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        treadmillSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        legpressSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         //Hide draw value
-        barDataSet.setDrawValues(false);
+        latPulldownSet.setDrawValues(false);
+        treadmillSet.setDrawValues(false);
+        legpressSet.setDrawValues(false);
 
         //Set bar data
-        barChart.setData(new BarData(barDataSet));
+        latPulldownChart.setData(new BarData(latPulldownSet));
+        treadmillChart.setData(new BarData(treadmillSet));
+        legpressChart.setData(new BarData(legpressSet));
+
         //Set animation
-        barChart.animateY(5000);
+        latPulldownChart.animateY(5000);
+        treadmillChart.animateY(5000);
+        legpressChart.animateY(5000);
 
         //Set description text and color
-        barChart.getDescription().setText("Lat Pulldown");
-        barChart.getDescription().setTextColor(Color.BLUE);
+        latPulldownChart.getDescription().setText("Lat Pulldown");
+        latPulldownChart.getDescription().setTextColor(Color.BLUE);
+
+        treadmillChart.getDescription().setText("Treadmill");
+        treadmillChart.getDescription().setTextColor(Color.BLUE);
+
+        legpressChart.getDescription().setText("Leg Press");
+        legpressChart.getDescription().setTextColor(Color.BLUE);
         return v;
     }
 }
