@@ -86,7 +86,7 @@ public class ChartFragment extends Fragment {
         });
 
         //Initialise bar data set
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Employees");
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Weight (kg)");
 
         //Set colours
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -100,7 +100,7 @@ public class ChartFragment extends Fragment {
         barChart.animateY(5000);
 
         //Set description text and color
-        barChart.getDescription().setText("Employees Chart");
+        barChart.getDescription().setText("Lat Pulldown");
         barChart.getDescription().setTextColor(Color.BLUE);
         return v;
     }
