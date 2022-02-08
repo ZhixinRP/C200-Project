@@ -326,7 +326,14 @@ public class TrackerSubFragment extends Fragment {
                     AlertDialog myDialog = myBuilder.create();
                     myDialog.show();
                 } else {
-                    
+                    LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View viewDialog = inflater.inflate(R.layout.add_treadmill, null);
+
+                    DatePicker dpTreadmill = viewDialog.findViewById(R.id.dp_Treadmill_Date);
+                    TimePicker tpTreadmill = viewDialog.findViewById(R.id.tp_Treadmill_Time);
+                    EditText etTreadmillDistance = viewDialog.findViewById(R.id.et_Treadmill_Distance);
+                    EditText etTreadmillMinutes = viewDialog.findViewById(R.id.et_Treadmill_Minutes);
+                    EditText etTreadmillSeconds = viewDialog.findViewById(R.id.et_Treadmill_Seconds);
                 }
             }
 
@@ -493,9 +500,23 @@ public class TrackerSubFragment extends Fragment {
                     AlertDialog myDialog = myBuilder.create();
                     myDialog.show();
                 } else {
-                    /*
-                    AMOS
-                     */
+                    /*AMOS*/
+                    LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View viewDialog = inflater.inflate(R.layout.add_treadmill, null);
+
+                    DatePicker dpTreadmill = viewDialog.findViewById(R.id.dp_Treadmill_Date);
+                    TimePicker tpTreadmill = viewDialog.findViewById(R.id.tp_Treadmill_Time);
+                    EditText etTreadmillDistance = viewDialog.findViewById(R.id.et_Treadmill_Distance);
+                    EditText etTreadmillMinutes = viewDialog.findViewById(R.id.et_Treadmill_Minutes);
+                    EditText etTreadmillSeconds = viewDialog.findViewById(R.id.et_Treadmill_Seconds);
+
+                    dpTreadmill.setMaxDate(new Date().getTime());
+
+                    AlertDialog.Builder myBuilder = new AlertDialog.Builder(getActivity());
+                    myBuilder.setView(viewDialog);  // Set the view of the dialog
+                    myBuilder.setTitle("Edit Treadmill Entry");
+
+
                 }
             }
         });
