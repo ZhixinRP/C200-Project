@@ -10,10 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -27,26 +36,12 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class ChartFragment extends Fragment {
-    LineChart latPulldownChart;
-
-    ArrayList<Entry> latPullDownEntries;
-    ArrayList<Entry> legPressEntries;
-    ArrayList<Entry> treadmillEntries;
-
-    LineDataSet latPullDownSet;
-    LineDataSet legPressSet;
-    LineDataSet treadmillSet;
-
-    LineData latPullDownData;
-    LineData legPressData;
-    LineData treadmillData;
+    BarChart barChart;
 
     AsyncHttpClient asyncHttpClient;
     RequestParams requestParams;
 
-    String GET_LAT_PULLDOWN = UtilityManager.BASE_URL + "c200/getLatPulldown.php";
-    String GET_TREADMILL = UtilityManager.BASE_URL + "c200/getTreadmill.php";
-    String GET_LEG_PRESS = UtilityManager.BASE_URL + "c200/getLegPress.php";
+    String GET_LAT_PULLDOWN_URL = UtilityManager.BASE_URL + "c200/getLatPulldownAsc.php";
 
     public ChartFragment() {
         // Required empty public constructor
@@ -60,51 +55,105 @@ public class ChartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chart, container, false);
-        latPulldownChart = v.findViewById(R.id.lat_pulldown_chart);
-
-        latPullDownEntries = new ArrayList<>();
-
         asyncHttpClient = new AsyncHttpClient();
         requestParams = new RequestParams();
 
-        //Fill ArrayLists with data
-        asyncHttpClient.get(GET_LAT_PULLDOWN, requestParams, new JsonHttpResponseHandler(){
+        barChart = v.findViewById(R.id.bar_chart);
+
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+
+        asyncHttpClient.get(GET_LAT_PULLDOWN_URL, requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Toast.makeText(getActivity(), "Line76", Toast.LENGTH_SHORT).show();
-                    String previousDate = "";
                     for(int i=0; i < response.length(); i++) {
                         JSONObject obj = (JSONObject)response.get(i);
-                        String date = obj.getString("date");
                         int weight = obj.getInt("weight");
+                        //STORE RECORDS IN TO THE ARRAY
 
-                        //Check if entry is recorded on the same day. If so, add the numbers to the previous entry.
-                        if (date.equals(previousDate)) {
-                            float xValue = latPullDownEntries.get(latPullDownEntries.size() - 1).getX();
-                            float previousWeight =  latPullDownEntries.get(latPullDownEntries.size() - 1).getY();
-                            float newWeight = previousWeight + weight;
-                            latPullDownEntries.set(latPullDownEntries.size() - 1,
-                                    new Entry(xValue, newWeight));
-                        }
-                        else {
-                            latPullDownEntries.add(new Entry(i + 1, weight));
-                            previousDate = date;
-                        }
+                        //Initialise chart entry
+                        BarEntry barEntry = new BarEntry(i, weight);
+
+                        //Add values in array list
+                        barEntries.add(barEntry);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        latPullDownSet = new LineDataSet(latPullDownEntries, "Lat Pulldown");
+        //Initialise bar data set
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Employees");
 
-        latPullDownData = new LineData(latPullDownSet);
+        //Set colours
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        latPulldownChart.setData(latPullDownData);
+        //Hide draw value
+        barDataSet.setDrawValues(false);
 
+        //Set bar data
+        barChart.setData(new BarData(barDataSet));
+        //Set animation
+        barChart.animateY(5000);
+
+        //Set description text and color
+        barChart.getDescription().setText("Employees Chart");
+        barChart.getDescription().setTextColor(Color.BLUE);
         return v;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -23,16 +23,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Chart Dashboard"
+                android:text="Progress Dashboard"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="#090909"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lat_pulldown_chart"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart"
                 android:layout_width="match_parent"
-                android:layout_height="301dp"
+                android:layout_height="308dp"
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1" />
 
