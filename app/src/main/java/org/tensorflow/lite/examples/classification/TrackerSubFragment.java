@@ -326,9 +326,7 @@ public class TrackerSubFragment extends Fragment {
                     AlertDialog myDialog = myBuilder.create();
                     myDialog.show();
                 } else {
-                    /*
-                    FOR AMOS TO FILL
-                     */
+                    
                 }
             }
 
