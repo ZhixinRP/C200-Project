@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -70,6 +71,50 @@ public class ChartFragment extends Fragment {
         ArrayList<BarEntry> lgEntries = new ArrayList<>();
 
         requestParams.put("username", sessionManager.getUsername());
+        asyncHttpClient.get("http://10.0.2.2/c200/getLegpressAsc.php", requestParams, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    for(int i=0; i < response.length(); i++) {
+                        JSONObject obj = (JSONObject)response.get(i);
+                        int reps = obj.getInt("reps");
+
+                        //Initialise chart entry
+                        BarEntry lgEntry = new BarEntry(i + 1, reps);
+
+                        //Add values in array list
+                        lgEntries.add(lgEntry);
+                    }
+
+                    //Initialise bar data set
+                    BarDataSet lgDataSet = new BarDataSet(lgEntries, "Reps");
+
+                    //Set colours
+                    lgDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    //Hide draw value
+                    lgDataSet.setDrawValues(false);
+
+                    //Set bar data
+                    legpressChart.setData(new BarData(lgDataSet));
+
+                    //Set animation
+                    legpressChart.animateY(5000);
+
+                    //Set Y-Axis to start from 0
+                    YAxis left = legpressChart.getAxisLeft();
+                    left.setAxisMinimum(0f);
+
+                    //Set description text and color
+                    legpressChart.getDescription().setText("Leg Press");
+                    legpressChart.getDescription().setTextColor(Color.BLUE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         asyncHttpClient.get("http://10.0.2.2/c200/getLatPulldownAsc.php", requestParams, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -85,6 +130,7 @@ public class ChartFragment extends Fragment {
                         //Add values in array list
                         lpEntries.add(lpEntry);
                     }
+
                     //Initialise bar data set
                     BarDataSet lpDataSet = new BarDataSet(lpEntries, "Reps");
 
@@ -99,6 +145,10 @@ public class ChartFragment extends Fragment {
 
                     //Set animation
                     latPulldownChart.animateY(5000);
+
+                    //Set Y Axis to start from 0
+                    YAxis left = latPulldownChart.getAxisLeft();
+                    left.setAxisMinimum(0f);
 
                     //Set description text and color
                     latPulldownChart.getDescription().setText("Lat Pulldown");
@@ -139,48 +189,13 @@ public class ChartFragment extends Fragment {
                     //Set animation
                     treadmillChart.animateY(5000);
 
+                    //Set Y Axis to start from 0
+                    YAxis left = treadmillChart.getAxisLeft();
+                    left.setAxisMinimum(0f);
+
                     //Set description text and color
                     treadmillChart.getDescription().setText("Treadmill");
                     treadmillChart.getDescription().setTextColor(Color.BLUE);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        asyncHttpClient.get("http://10.0.2.2/c200/getLegpressAsc.php", requestParams, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-                    for(int i=0; i < response.length(); i++) {
-                        JSONObject obj = (JSONObject)response.get(i);
-                        int reps = obj.getInt("reps");
-
-                        //Initialise chart entry
-                        BarEntry lgEntry = new BarEntry(i + 1, reps);
-
-                        //Add values in array list
-                        lgEntries.add(lgEntry);
-                    }
-                    //Initialise bar data set
-                    BarDataSet lgDataSet = new BarDataSet(lgEntries, "Reps");
-
-                    //Set colours
-                    lgDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-                    //Hide draw value
-                    lgDataSet.setDrawValues(false);
-
-                    //Set bar data
-                    legpressChart.setData(new BarData(lgDataSet));
-
-                    //Set animation
-                    legpressChart.animateY(5000);
-
-                    //Set description text and color
-                    legpressChart.getDescription().setText("Leg Press");
-                    legpressChart.getDescription().setTextColor(Color.BLUE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
